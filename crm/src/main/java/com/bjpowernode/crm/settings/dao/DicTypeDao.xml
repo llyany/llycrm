@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bjpowernode.crm.settings.dao.DicTypeDao">
+
+   <!-- <select id="getTypeList" resultType="DicType">
+
+        select * from tbl_dic_type
+
+    </select>-->
+	<!--应该是可以连表查询的
+	分析：dicType对dicValue是一对多
+	    可以采用一对多连表查询
+	-->
+    <resultMap id="dicMap" type="DicType">
+        <id column="code" property="code"></id>
+        <collection property="valueList" ofType="DicValue">
+            <id column="id" property="id"></id>
+            <result column="value" property="value"></result>
+            <result column="text" property="text"></result>
+            <result column="orderNo" property="orderNo"></result>
+        </collection>
+    </resultMap>
+    <select id="getTypeList" resultMap="dicMap">
+        select
+        t.code,v.*
+        from tbl_dic_type t inner join tbl_dic_value v
+        on t.code = v.typeCode order by v.orderNo
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
